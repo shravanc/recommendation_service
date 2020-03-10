@@ -5,8 +5,10 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 mongo = PyMongo()
-
-print("**************", os.path.abspath(os.path.dirname(__file__)))
+path = os.path.abspath(os.path.dirname(__file__)) + "/../instance/development.cfg"
+app = Flask(__name__)
+app.config.from_pyfile(path)
+db = SQLAlchemy(app)
 
 
 def create_app(config_filename=None):
@@ -30,10 +32,5 @@ def register_blueprints(application):
   application.register_blueprint(recommends_blueprints)
 
 
-path = os.path.abspath(os.path.dirname(__file__)) + "/../instance/development.cfg"
-print("path******>", path)
-app = Flask(__name__)
-app.config.from_pyfile(path)
-db = SQLAlchemy(app)
-#db = SQLAlchemy(create_app(path))
+
 
