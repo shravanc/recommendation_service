@@ -8,9 +8,9 @@ def create_app(config_filename=None):
   application = Flask( 'recommendation', instance_relative_config=True)
   #application.config.from_pyfile(config_filename)
   #initialize_extensions(application)
-  #register_blueprints(application)
+  register_blueprints(application)
   
-
+  return application
 
 def initialize_extension(application):
   mongo.init_app(application)
@@ -18,7 +18,7 @@ def initialize_extension(application):
 
 
 def register_blueprints(application):
-  from app.controllers import user_blueprints
-  application.register_blueprint(user_blueprints)
+  from app.controllers import recommends_blueprints
+  application.register_blueprint(recommends_blueprints)
 
 
