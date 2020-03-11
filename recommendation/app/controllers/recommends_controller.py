@@ -1,12 +1,17 @@
 from flask import request, jsonify, render_template
-#from app.models.user import User
 from app.models.rating import Rating
 from app.models.items import Item
 
-#from app import mongo
-
+from app.helpers.movie_recommendation import MovieRecommendation
 
 def index():
+  engine = MovieRecommendation()
+  movies = engine.recommend_movies('content_based')
+
+  return jsonify({'data': movies})
+
+
+def index1():
   #users = User.get()
   user_ratings = Rating.query.all()
   ratings = []
@@ -32,3 +37,9 @@ def home():
 
   return jsonify({'data': data})
   #return render_template('index.html')
+
+
+def recommend():
+  engine = MovieRecommendation('content_based')
+  movies = engine.recommend()
+  

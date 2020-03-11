@@ -1,10 +1,8 @@
 from flask import Flask
 import os
-#from flask_pymongo import PyMongo
 from flask_sqlalchemy import SQLAlchemy
 
 
-#mongo = PyMongo()
 path = os.path.abspath(os.path.dirname(__file__)) + "/../instance/development.cfg"
 app = Flask(__name__)
 app.config.from_pyfile(path)
@@ -20,8 +18,6 @@ def create_app(config_filename=None):
   return application
 
 def initialize_extensions(application):
-  #mongo.init_app(application)
-  #from app.models.user import User
   from app.models.rating import Rating  
 
   db = SQLAlchemy(application)
