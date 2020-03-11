@@ -4,7 +4,8 @@ from sqlalchemy.dialects.postgresql import JSON
 
 class Rating(db.Model):
   __tablename__ = 'ratings'
-
+  __bind_key__  = 'db1'
+  
 
   id = db.Column(db.Integer, primary_key=True)
   user_id = db.Column(db.Integer)
