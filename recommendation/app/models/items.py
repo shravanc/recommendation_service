@@ -4,16 +4,29 @@ import pandas as pd
 import tensorflow as tf
 from app.models.genre import Genre
 
+
+from app.helpers.decorator.default              import Default
+from app.helpers.decorator.db_to_dict           import DbToDict
+from app.helpers.decorator.dict_to_data_frame   import DictToDataFrame
+from app.helpers.decorator.df_to_features       import DFToFeatures
+from app.helpers.decorator.features_to_tensors  import FeaturesToTensor
+
+
 class Item(db.Model):
   __tablename__ = 'items'
   __bind_key__  = 'db2'
-
+  __mapper_args__ = {
+      'include_properties' :['id', 'title', 'genres']
+  }
 
   id = db.Column(db.Integer, primary_key=True)
   title = db.Column(db.String)
   description = db.Column(db.String)
   state = db.Column(db.String)
   genres = db.Column(db.ARRAY(db.Integer))
+
+  def __init__(self):
+    self.columns = ['id', 'title', 'description', 'state', 'genres']
 
   def __repr__(self):
     return '<id {}>'.format(self.id)
@@ -35,10 +48,9 @@ class Item(db.Model):
     titles = []
 
     for item in items:
-      d1 = {}
-      d1["id"]    = item.id
-      d1["title"] = item.title
-      d1["genres"]= item.genres
+      for k in ['id', 'title', 'genres']:
+        d1 = {}
+        d1[k]    = getattr(item, k)
       
       data.append(d1)
       titles.append(item.title)
@@ -46,7 +58,7 @@ class Item(db.Model):
     return data, titles
 
 
-  def get_items_features(self):
+  def get_items_features1(self):
     items, title = self.all_items()
     total_item_feats = Genre().count()
 
@@ -59,3 +71,25 @@ class Item(db.Model):
       features.append(one_hot)
 
     return tf.constant(features, dtype=tf.float32)
+
+
+
+
+  def get_items_features(self): #_using_decorator(self):
+    items = Item.query.all()
+    number_of_features = Genre().count()
+    return FeaturesToTensor( 
+                      DFToFeatures( 
+                        DictToDataFrame( 
+                          DbToDict( 
+                            Default(items), self.columns
+                          )
+                        ), number_of_features, 'genres'
+                      )   
+                    ).operation()
+
+
+
+
+
+

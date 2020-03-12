@@ -4,6 +4,13 @@ from sqlalchemy.dialects.postgresql import JSON
 import pandas as pd
 import tensorflow as tf
 
+from app.helpers.decorator.default              import Default
+from app.helpers.decorator.db_to_dict           import DbToDict
+from app.helpers.decorator.dict_to_data_frame   import DictToDataFrame
+from app.helpers.decorator.df_to_features       import DFToFeatures
+from app.helpers.decorator.features_to_tensors  import FeaturesToTensor
+
+
 class Rating(db.Model):
   __tablename__ = 'ratings'
   __bind_key__  = 'db1'
@@ -14,6 +21,8 @@ class Rating(db.Model):
   item_id = db.Column(db.Integer)
   rating  = db.Column(db.Integer)
 
+  def __init__(self):
+    self.columns = ['id', 'user_id', 'item_id', 'rating']
 
   def __repr__(self):
     return '<id {}>'.format(self.id)
@@ -47,5 +56,27 @@ class Rating(db.Model):
     return tf.constant(user_ratings, dtype=tf.float32)
 
 
+  """
+  def get_user_items(self):
+    ratings = self.all_user_ratings()
+    ratings = Rating.query.all()
 
+    total_movies = Item().count() #get_item_names())    
+ 
+    print("-----------------------------get_user_items------------------------------------") 
+    #return  FeaturesToTensor(
+    #                          DFToFeatures(
+    df = DictToDataFrame(
+                                  DbToDict(
+                                    Default(ratings), self.columns
+                                  )
+                                ). operation #, total_movies, 'rating'
+                              #)
+                            #).operation()
+    data = [0] * total_movies
+    user_ratings = []
+    for index, item in df,iterrows():
+      datap[item.item_id-1] = item.rating
+      
+  """
 

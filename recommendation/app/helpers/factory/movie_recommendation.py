@@ -1,5 +1,5 @@
-from app.helpers.recommendation_engine import RecommendationEngine
-from app.helpers.content_based_v1 import ContentBasedV1
+from app.helpers.factory.recommendation_engine import RecommendationEngine
+from app.helpers.factory.content_based_v1 import ContentBasedV1
 
 class MovieRecommendation(RecommendationEngine):
 

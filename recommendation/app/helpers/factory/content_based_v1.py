@@ -21,8 +21,11 @@ class ContentBasedV1:
     self.feats = Genre().get_genres()
 
     self.user_items = Rating().get_user_items()
+    print("******Ending UserItems*******", self.user_items)
     self.item_feats = Item().get_items_features()
+    print("******Ending ItemFeatures*******", self.item_feats)
 
+    print(self.user_items)
 
   def recommend(self):
     users_feats = tf.matmul(self.user_items, self.item_feats) 
