@@ -1,6 +1,8 @@
 from app import db
 from sqlalchemy.dialects.postgresql import JSON
 
+from app.helpers.schema import get_schema
+
 
 class User(db.Model):
   __tablename__ = 'users'
@@ -16,6 +18,8 @@ class User(db.Model):
 
 
   def get_usernames(self):
+    User.__table__.schema = get_schema()
+
     users = User.query.all()
     user_list = []
     for user in users:
@@ -25,6 +29,7 @@ class User(db.Model):
 
 
   def all_users(self):
+    User.__table__.schema = get_schema()
     users = User.query.all()
     user_list = []
     for user in users:
@@ -35,6 +40,7 @@ class User(db.Model):
     return user_list
 
   def count(self):
+    User.__table__.schema = get_schema()
     return User.query.count()
 
 

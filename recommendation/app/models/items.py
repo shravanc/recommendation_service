@@ -11,6 +11,7 @@ from app.helpers.decorator.dict_to_data_frame   import DictToDataFrame
 from app.helpers.decorator.df_to_features       import DFToFeatures
 from app.helpers.decorator.features_to_tensors  import FeaturesToTensor
 
+from app.helpers.schema import get_schema
 
 class Item(db.Model):
   __tablename__ = 'items'
@@ -32,9 +33,11 @@ class Item(db.Model):
     return '<id {}>'.format(self.id)
 
   def count(self):
+    Item.__table__.schema = get_schema()
     return Item.query.count()
 
   def get_item_names(self):
+    Item.__table__.schema = get_schema()
     items = Item.query.all()
     titles = []
     for item in items:
@@ -43,6 +46,7 @@ class Item(db.Model):
     return titles
 
   def all_items(self):
+    Item.__table__.schema = get_schema()
     items = Item.query.all()
     data = []
     titles = []
@@ -76,6 +80,10 @@ class Item(db.Model):
 
 
   def get_items_features(self): #_using_decorator(self):
+
+    print("------>doamin***********", get_schema())
+    Item.__table__.schema = get_schema()
+
     items = Item.query.all()
     number_of_features = Genre().count()
     return FeaturesToTensor( 

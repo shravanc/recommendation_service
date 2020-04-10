@@ -10,6 +10,8 @@ from app.helpers.decorator.dict_to_data_frame   import DictToDataFrame
 from app.helpers.decorator.df_to_features       import DFToFeatures
 from app.helpers.decorator.features_to_tensors  import FeaturesToTensor
 
+from app.helpers.schema import get_schema
+
 
 class Rating(db.Model):
   __tablename__ = 'ratings'
@@ -28,6 +30,7 @@ class Rating(db.Model):
     return '<id {}>'.format(self.id)
 
   def all_user_ratings(self):
+    Rating.__table__.schema = get_schema()
     all_ratings = Rating.query.all()
     ratings = []
     for rating in all_ratings:
