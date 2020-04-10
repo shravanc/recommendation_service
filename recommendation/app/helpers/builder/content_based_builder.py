@@ -1,5 +1,6 @@
 from app.helpers.builder.recommender import Recommender
 from app.helpers.builder.genre_based import GenreBased
+
 class ContentBasedBuilder(Recommender):
 
   def __init__(self):

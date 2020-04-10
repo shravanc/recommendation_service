@@ -10,14 +10,26 @@ class Recommender:
     pass
 
   @abstractproperty
-  def product_part_a(self):
+  def users_features(self):
     pass
 
   @abstractproperty
-  def product_part_b(self):
+  def rank_feature_relevance(self):
     pass
 
   @abstractproperty
-  def product_part_c(self):
+  def user_ratings(self):
+    pass
+
+  @abstractproperty
+  def normalization(self):
+    pass
+
+  @abstractproperty
+  def recommendation(self):
+    pass
+
+  @abstractproperty
+  def format_recommendation(self):
     pass
 

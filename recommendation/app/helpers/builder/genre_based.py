@@ -4,11 +4,11 @@ from app.models.user    import User
 from app.models.genre   import Genre
 
 
-from app.helpers.builder.user_feature import UserFeature
+from app.helpers.builder.user_feature           import UserFeature
 from app.helpers.builder.rank_feature_relevance import RankFeatureRelevance
-from app.helpers.builder.user_rating import UserRating
-from app.helpers.builder.normalization import Normalization
-from app.helpers.builder.recommendation import Recommendation
+from app.helpers.builder.user_rating            import UserRating
+from app.helpers.builder.normalization          import Normalization
+from app.helpers.builder.recommendation         import Recommendation
 
 
 class GenreBased():
@@ -39,19 +39,31 @@ class GenreBased():
 
 
   def evaluate_users_features(self):
-    self.users_feats = UserFeature(self.user_items, self.item_feats).evaluate()
+    self.users_feats = UserFeature(self.user_items,
+                                   self.item_feats).evaluate()
 
   def evaluate_rank_feature_relevance(self):
-    self.top_user_features = RankFeatureRelevance(self.users_feats, self.num_feats, self.num_users, self.feats, self.users).evaluate()
+    self.top_user_features = RankFeatureRelevance(self.users_feats, 
+                                                  self.num_feats, 
+                                                  self.num_users, 
+                                                  self.feats, 
+                                                  self.users).evaluate()
 
   def evaluate_user_ratings(self):
-    self.users_ratings = UserRating(self.users_feats, self.item_feats).evaluate()
+    self.users_ratings = UserRating(self.users_feats,
+                                    self.item_feats).evaluate()
 
   def evaluate_normalization(self):
-    self.users_ratings = Normalization(self.user_items, self.users_ratings).evaluate()
+    self.users_ratings = Normalization(self.user_items, 
+                                       self.users_ratings).evaluate()
 
   def evaluate_recommendation(self):
-    self.recommendation = Recommendation(self.users_ratings, self.num_recommendations, self.num_users, self.items, self.users).evaluate()
+    self.recommendation = Recommendation(self.users_ratings, 
+                                         self.num_recommendations, 
+                                         self.num_users, 
+                                         self.items, 
+                                         self.users).evaluate()
 
   def format_recommendation(self):
     return self.recommendation
+
