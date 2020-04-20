@@ -37,33 +37,40 @@ class GenreBased():
     self.users_ratings_new  = None
     self.recommendation     = None
 
+  def evaluate(self, arg):
+    import sys
+    return getattr(self, f"_evaluate_{arg}")()
 
-  def evaluate_users_features(self):
+
+
+  # private methods
+
+  def _evaluate_users_features(self):
     self.users_feats = UserFeature(self.user_items,
                                    self.item_feats).evaluate()
 
-  def evaluate_rank_feature_relevance(self):
+  def _evaluate_rank_feature_relevance(self):
     self.top_user_features = RankFeatureRelevance(self.users_feats, 
                                                   self.num_feats, 
                                                   self.num_users, 
                                                   self.feats, 
                                                   self.users).evaluate()
 
-  def evaluate_user_ratings(self):
+  def _evaluate_user_ratings(self):
     self.users_ratings = UserRating(self.users_feats,
                                     self.item_feats).evaluate()
 
-  def evaluate_normalization(self):
+  def _evaluate_normalization(self):
     self.users_ratings = Normalization(self.user_items, 
                                        self.users_ratings).evaluate()
 
-  def evaluate_recommendation(self):
+  def _evaluate_recommendation(self):
     self.recommendation = Recommendation(self.users_ratings, 
                                          self.num_recommendations, 
                                          self.num_users, 
                                          self.items, 
                                          self.users).evaluate()
 
-  def format_recommendation(self):
+  def _evaluate_format_recommendation(self):
     return self.recommendation
 
