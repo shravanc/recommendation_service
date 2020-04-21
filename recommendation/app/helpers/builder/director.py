@@ -16,7 +16,8 @@ class Director:
     self._builder.user_ratings()
     self._builder.normalization()
     self._builder.recommendation()
-    return self._builder.format_recommendation()
+    return self._builder._product.evaluate()
+    #return self._builder.format_recommendation()
 
   def recommendation_without_normalization():
     self._builder.users_features()

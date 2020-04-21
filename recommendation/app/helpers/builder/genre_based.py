@@ -31,13 +31,24 @@ class GenreBased():
     # e.g. columns could represent ['Action', 'Sci-Fi', 'Comedy', 'Cartoon', 'Drama']
     self.item_feats = Item().get_items_features()
 
+    self.parts              = []
     self.users_feats        = None
     self.top_user_features  = None
     self.users_ratings      = None
     self.users_ratings_new  = None
     self.recommendation     = None
 
-  def evaluate(self, arg):
+  def add(self, parts):
+    self.parts.append(parts)
+
+  def evaluate(self):
+    import sys
+    for part in self.parts:
+      getattr(self, f"_evaluate_{part}")()
+
+    return self.recommendation
+
+  def evaluate1(self, arg):
     import sys
     return getattr(self, f"_evaluate_{arg}")()
 

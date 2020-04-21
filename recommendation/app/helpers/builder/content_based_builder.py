@@ -16,21 +16,21 @@ class ContentBasedBuilder(Recommender):
     return product
 
   def users_features(self):
-    self._product.evaluate( 'users_features' )
+    self._product.add( 'users_features' )
 
   def rank_feature_relevance(self):
-    self._product.evaluate( 'rank_feature_relevance' )
+    self._product.add( 'rank_feature_relevance' )
 
   def user_ratings(self):
-    self._product.evaluate( 'user_ratings' )
+    self._product.add( 'user_ratings' )
 
   def normalization(self):
-    self._product.evaluate( 'normalization' )
+    self._product.add( 'normalization' )
 
   def recommendation(self):
-    self._product.evaluate( 'recommendation' )
+    self._product.add( 'recommendation' )
 
   def format_recommendation(self):
-    return self._product.evaluate( 'format_recommendation' )
+    self._product.add( 'format_recommendation' )
 
 
